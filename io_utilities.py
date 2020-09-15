@@ -1,11 +1,33 @@
 # io_utilities.py
+import pandas as pd
 
-filepath = './data/iris.data'
+def readvanilla():
+    # Reads Dataset and stores results in dictionary
+    # Only for python3.8
+    data = {"S_L":[],"S_W":[],"P_L":[],"P_W":[],"CL":[]}
+    filepath = "data/iris.data"
+    with open(filepath,"r") as f:
+        while (line==f.readline().strip("\n").split(",")) and len(line) == len(data.keys()):
+            for idx,key in enumerate(data.keys()):
+                try:
+                    data[key].append(float(line[idx]))
+                except ValueError as e:
+                    data[key].append(line[idx])
+    return data
 
-with open(filepath,'r') as fp:
-    data = fp.read()
+def read_pandas(filepath,names):
+    """
+    Read a csv in pandas
+    returns a pandas dataframe
+    """
+    df = pd.read_csv(
+        filepath,
+        names=names,
+    )
+    return df
 
-data_lines = data.split('\n')
-data_final = [f.split(',')for f in data_lines]
-
-print(data_final)
+if __name__ == "__main__":
+    filepath = "./data/iris.data"
+    names = ['sepal_length','sepal_width','petal_length','petal_width','class']
+    df = read_pandas(filepath,names)
+    print(df.head(10))
