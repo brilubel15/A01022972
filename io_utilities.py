@@ -30,4 +30,8 @@ if __name__ == "__main__":
     filepath = "./data/iris.data"
     names = ['sepal_length','sepal_width','petal_length','petal_width','class']
     df = read_pandas(filepath,names)
-    print(df.head(10))
+
+    df_filtered = df[df['sepal_length']<4.55]
+
+    print(df_filtered)
+    print(df_filtered['sepal_width'].std())
